@@ -1,4 +1,4 @@
-# Explainable Multi-Class Mental Health Classification and Linguistic Differentiation Across Reddit Communities
+# Analyzing Contextual Overlap in Multi-Class Mental Health Discourse Using Transformers and Explainable AI
 
 This project investigates multi-class classification of Reddit mental health communities using classical machine learning and transformer-based models, followed by explainability analysis to understand model behavior.
 
