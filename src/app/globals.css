@@ -1,0 +1,289 @@
+@import "tailwindcss";
+
+/* ─── Tailwind v4: @theme replaces tailwind.config.js ───────────────────────
+   All design tokens defined here auto-generate utility classes.
+   e.g. --color-surface → bg-surface, text-surface, border-surface
+   ─────────────────────────────────────────────────────────────────────────── */
+
+@theme {
+  /* ── Fonts ────────────────────────────────────────────────────────────── */
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* ── Fluid type scale ────────────────────────────────────────────────── */
+  --text-xs:   clamp(0.75rem,  0.7rem  + 0.25vw, 0.875rem);
+  --text-sm:   clamp(0.875rem, 0.8rem  + 0.35vw, 1rem);
+  --text-base: clamp(1rem,     0.95rem + 0.25vw, 1.125rem);
+  --text-lg:   clamp(1.125rem, 1rem    + 0.75vw, 1.5rem);
+  --text-xl:   clamp(1.5rem,   1.2rem  + 1.25vw, 2.25rem);
+
+  /* ── Spacing (4px base) ──────────────────────────────────────────────── */
+  --spacing-1:  0.25rem;
+  --spacing-2:  0.5rem;
+  --spacing-3:  0.75rem;
+  --spacing-4:  1rem;
+  --spacing-5:  1.25rem;
+  --spacing-6:  1.5rem;
+  --spacing-8:  2rem;
+  --spacing-10: 2.5rem;
+  --spacing-12: 3rem;
+  --spacing-16: 4rem;
+
+  /* ── Border radius ───────────────────────────────────────────────────── */
+  --radius-sm:   0.25rem;
+  --radius-md:   0.375rem;
+  --radius-lg:   0.5rem;
+  --radius-xl:   0.75rem;
+  --radius-full: 9999px;
+
+  /* ── Light mode surfaces (warm neutral — clinical but not cold) ────── */
+  --color-bg:               #f7f6f2;
+  --color-surface:          #fafaf8;
+  --color-surface-2:        #ffffff;
+  --color-surface-offset:   #f0ede9;
+  --color-border:           #e2ded8;
+  --color-divider:          #ece9e4;
+
+  /* ── Light mode text ─────────────────────────────────────────────────── */
+  --color-text:             #1c1917;
+  --color-text-muted:       #78716c;
+  --color-text-faint:       #a8a29e;
+  --color-text-inverse:     #fafaf8;
+
+  /* ── Primary accent (teal — clinical, trustworthy) ───────────────────── */
+  --color-primary:          #0d6b6b;
+  --color-primary-hover:    #0a5252;
+  --color-primary-subtle:   #e0f0f0;
+  --color-primary-fg:       #ffffff;
+
+  /* ── Risk tier colors ────────────────────────────────────────────────── */
+  --color-risk-low:         #16a34a;
+  --color-risk-low-bg:      #f0fdf4;
+  --color-risk-low-border:  #bbf7d0;
+
+  --color-risk-moderate:    #d97706;
+  --color-risk-moderate-bg:     #fffbeb;
+  --color-risk-moderate-border: #fde68a;
+
+  --color-risk-high:        #ea580c;
+  --color-risk-high-bg:     #fff7ed;
+  --color-risk-high-border: #fed7aa;
+
+  --color-risk-crisis:      #dc2626;
+  --color-risk-crisis-bg:   #fef2f2;
+  --color-risk-crisis-border: #fecaca;
+
+  /* ── Shadows ─────────────────────────────────────────────────────────── */
+  --shadow-sm: 0 1px 2px oklch(0.2 0.01 80 / 0.06);
+  --shadow-md: 0 4px 12px oklch(0.2 0.01 80 / 0.08);
+  --shadow-lg: 0 12px 32px oklch(0.2 0.01 80 / 0.12);
+}
+
+/* ─── Dark mode overrides ────────────────────────────────────────────────────
+   Use .dark class on <html> — set by our theme toggle
+   ─────────────────────────────────────────────────────────────────────────── */
+
+@variant dark (&:where(.dark *));
+
+@layer theme {
+  :root:where(.dark) {
+    --color-bg:               #141412;
+    --color-surface:          #1c1b18;
+    --color-surface-2:        #222118;
+    --color-surface-offset:   #1a1916;
+    --color-border:           #2e2c27;
+    --color-divider:          #262420;
+
+    --color-text:             #e7e5e0;
+    --color-text-muted:       #7c7872;
+    --color-text-faint:       #4e4b46;
+    --color-text-inverse:     #141412;
+
+    --color-primary:          #2d9e9e;
+    --color-primary-hover:    #3ab5b5;
+    --color-primary-subtle:   #0d2e2e;
+    --color-primary-fg:       #ffffff;
+
+    --color-risk-low:         #4ade80;
+    --color-risk-low-bg:      #052e16;
+    --color-risk-low-border:  #166534;
+
+    --color-risk-moderate:    #fbbf24;
+    --color-risk-moderate-bg:     #1c1000;
+    --color-risk-moderate-border: #854d0e;
+
+    --color-risk-high:        #fb923c;
+    --color-risk-high-bg:     #1c0e00;
+    --color-risk-high-border: #9a3412;
+
+    --color-risk-crisis:      #f87171;
+    --color-risk-crisis-bg:   #1c0000;
+    --color-risk-crisis-border: #991b1b;
+
+    --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.25);
+    --shadow-md: 0 4px 12px oklch(0 0 0 / 0.35);
+    --shadow-lg: 0 12px 32px oklch(0 0 0 / 0.45);
+  }
+}
+
+/* ─── Base styles ────────────────────────────────────────────────────────────*/
+
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+    scroll-padding-top: var(--spacing-16);
+  }
+
+  body {
+    min-height: 100dvh;
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    line-height: 1.6;
+  }
+
+  img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+  }
+
+  input, button, textarea, select {
+    font: inherit;
+    color: inherit;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    text-wrap: balance;
+    line-height: 1.2;
+  }
+
+  p, li {
+    text-wrap: pretty;
+    max-width: 72ch;
+  }
+
+  ::selection {
+    background: color-mix(in oklch, var(--color-primary) 20%, transparent);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ─── Component layer ────────────────────────────────────────────────────────
+   Reusable patterns that don't belong in a component file
+   ─────────────────────────────────────────────────────────────────────────── */
+
+@layer components {
+  /* Scrollbar — subtle, matches surface colors */
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+  .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: var(--radius-full);
+  }
+
+  /* Evidence highlight — phrase spans in the text panel */
+  .evidence-highlight {
+    background: color-mix(in oklch, var(--color-risk-high) 15%, transparent);
+    border-bottom: 1.5px solid var(--color-risk-high);
+    border-radius: 2px;
+    padding: 0 2px;
+    cursor: default;
+    transition: background 150ms ease;
+  }
+  .evidence-highlight:hover {
+    background: color-mix(in oklch, var(--color-risk-high) 25%, transparent);
+  }
+
+  .evidence-highlight[data-label="self-harm language"],
+  .evidence-highlight[data-label="existential finality"] {
+    background: color-mix(in oklch, var(--color-risk-crisis) 15%, transparent);
+    border-bottom-color: var(--color-risk-crisis);
+  }
+
+  .evidence-highlight[data-label="hopelessness"],
+  .evidence-highlight[data-label="grief"] {
+    background: color-mix(in oklch, var(--color-risk-high) 15%, transparent);
+    border-bottom-color: var(--color-risk-high);
+  }
+
+  .evidence-highlight[data-label="isolation"],
+  .evidence-highlight[data-label="withdrawal"],
+  .evidence-highlight[data-label="anxiety"] {
+    background: color-mix(in oklch, var(--color-risk-moderate) 15%, transparent);
+    border-bottom-color: var(--color-risk-moderate);
+  }
+
+  /* Panel card — consistent surface for right-side panels */
+  .panel-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* Skeleton shimmer */
+  @keyframes shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position:  200% 0; }
+  }
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      var(--color-surface-offset) 25%,
+      var(--color-border) 50%,
+      var(--color-surface-offset) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+    border-radius: var(--radius-sm);
+  }
+}
+
+/* ─── Utilities ──────────────────────────────────────────────────────────────*/
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .text-pretty  { text-wrap: pretty; }
+
+  /* Full-height layout helper for the three-column workspace */
+  .workspace-grid {
+    display: grid;
+    grid-template-columns: 260px 1fr 340px;
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  @media (max-width: 1024px) {
+    .workspace-grid {
+      grid-template-columns: 1fr;
+      height: auto;
+      overflow: auto;
+    }
+  }
+}

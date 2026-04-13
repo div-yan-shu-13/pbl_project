@@ -1,85 +1,116 @@
-# Analyzing Contextual Overlap in Multi-Class Mental Health Discourse Using Transformers and Explainable AI
+# Therapist Assistant
 
-This project investigates multi-class classification of Reddit mental health communities using classical machine learning and transformer-based models, followed by explainability analysis to understand model behavior.
+An explainable AI-assisted mental health risk triage system for therapists and clinical reviewers.  
+It analyzes patient-written text, highlights risk signals, explains predictions, and helps manage structured patient memory across sessions.
 
-The objective is to analyze linguistic differences between mental health subreddits and examine why contextual models confuse certain conditions such as Depression and SuicideWatch.
+## Features
 
----
+- Mental health risk classification from text
+- Risk tier mapping: Low / Moderate / High / Crisis
+- Context detection: self-directed, third-person, support-seeking, ambiguous
+- Evidence highlights for explainable predictions
+- Patient workspace with session history
+- Structured memory extraction and review
+- Human-in-the-loop workflow for therapist approval
+
+## Tech Stack
+
+**Frontend**
+- Next.js
+- TypeScript
+- Tailwind CSS
+- Zustand
+- shadcn/ui
+
+**Backend**
+- FastAPI
+- Python
+- Pydantic
+
+**ML / NLP**
+- BERT
+- PyTorch
+- scikit-learn
+- SHAP
+- LIME
+
+**Database / Auth**
+- Prisma
+- Neon DB
+- Clerk
+
+## Model
+
+The classifier is trained on Reddit mental health text across 5 classes:
+
+- Control
+- Anxiety
+- Depression
+- BPD
+- SuicideWatch
+
+Mapped risk tiers:
+
+| Class | Risk Tier |
+|---|---|
+| Control | Low |
+| Anxiety | Moderate |
+| Depression | High |
+| BPD | High |
+| SuicideWatch | Crisis |
+
+## Workflow
+
+1. Create or select a patient
+2. Paste patient text or use chat mode
+3. Run analysis
+4. Review risk tier, signals, and evidence
+5. Accept/edit/reject memory candidates
+6. Save session and patient context
 
 ## Project Structure
 
-The repository contains three main notebooks:
+```bash
+therapist-assistant/
+├── app/
+├── components/
+├── prisma/
+├── lib/
+├── therapist-assistant-api/
+└── README.md
+```
 
-### 1. `baseline.ipynb`
+## Run Locally
 
-* Loads Reddit dataset (2018 + 2019 subsets)
-* Constructs 5-class setup:
+### Frontend
+```bash
+npm install
+npm run dev
+```
 
-  * Depression
-  * Anxiety
-  * BPD
-  * SuicideWatch
-  * Control (merged non-mental-health subreddits)
-* Cleans and balances the dataset
-* Exports final processed CSV
-* Implements classical baselines:
+### Backend
+```bash
+cd therapist-assistant-api
+pip install -r requirements.txt
+uvicorn app.main:app --reload --port 8000
+```
 
-  * TF-IDF + Logistic Regression
-  * TF-IDF + Linear SVM
+### Database
+```bash
+npx prisma generate
+npx prisma migrate dev
+```
 
----
+## Environment Variables
 
-### 2. `bert.ipynb`
+```env
+DATABASE_URL=
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+NEXT_PUBLIC_API_URL=http://localhost:8000
+```
 
-* Trains BERT (`bert-base-uncased`) for multi-class classification
-* Evaluates:
+## Status
 
-  * Accuracy
-  * Macro F1
-  * Confusion matrix
-* Saves fine-tuned model for later reuse
-
----
-
-### 3. `xai.ipynb`
-
-* Loads trained BERT model
-* Identifies Depression → SuicideWatch misclassifications
-* Applies:
-
-  * LIME
-  * SHAP (pipeline-based)
-* Analyzes token-level contributions driving crisis predictions
-* Extracts recurring linguistic patterns in misclassified posts
-
----
-
-## Key Findings (Current Progress)
-
-* Classical linear models achieve ~0.76–0.77 macro F1.
-* BERT improves macro F1 to ~0.80.
-* Depression and SuicideWatch exhibit significant confusion.
-* SHAP analysis shows predictions toward SuicideWatch are strongly driven by:
-
-  * Explicit self-harm terminology
-  * Existential finality language
-  * Suicide-related vocabulary even in third-person contexts
-
----
-
-## Technologies Used
-
-* Python
-* PyTorch
-* HuggingFace Transformers
-* Scikit-learn
-* LIME
-* SHAP
-* Pandas / NumPy / Matplotlib / Seaborn
-
----
-
-## Dataset
-
-Reddit posts from mental health and control subreddits (2018–2019 subsets).
-Subreddit membership is used as a proxy label for mental health condition.
+Built as a PBL project at Manipal University Jaipur.  
+Current focus: explainable mental health text analysis, therapist workflow support, and deployment-ready architecture.

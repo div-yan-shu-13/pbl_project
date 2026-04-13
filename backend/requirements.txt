@@ -1,0 +1,17 @@
+# API framework
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+
+# Validation and settings
+pydantic==2.7.4
+pydantic-settings==2.3.4
+
+# ML and inference
+transformers==4.44.2
+torch==2.3.1
+numpy==1.26.4
+scikit-learn==1.5.1
+
+# Tokenizer backend (needed by transformers)
+sentencepiece==0.2.0
+protobuf==5.27.2

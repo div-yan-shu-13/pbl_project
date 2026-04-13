@@ -1,0 +1,88 @@
+generator client {
+  provider        = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+}
+
+model Patient {
+  id           String    @id @default(cuid())
+  display_name String
+  notes        String?
+  created_at   DateTime  @default(now())
+  last_session DateTime?
+
+  sessions         Session[]
+  memories         Memory[]
+  memoryCandidates MemoryCandidate[]
+}
+
+model Session {
+  id              String    @id @default(cuid())
+  patient_id      String
+  source_type     String
+  raw_text        String
+  created_at      DateTime  @default(now())
+  therapist_notes String?
+
+  patient  Patient   @relation(fields: [patient_id], references: [id], onDelete: Cascade)
+  analysis Analysis?
+}
+
+model Analysis {
+  id            String   @id @default(cuid())
+  session_id    String   @unique
+  risk_tier     String
+  context_label String
+  signal_labels String[]
+  confidence    String
+  summary       String
+  raw_class     String
+  raw_score     Float
+
+  session       Session        @relation(fields: [session_id], references: [id], onDelete: Cascade)
+  evidenceSpans EvidenceSpan[]
+}
+
+model EvidenceSpan {
+  id          String  @id @default(cuid())
+  analysis_id String
+  text        String
+  label       String
+  score       Float
+  start_idx   Int?
+  end_idx     Int?
+
+  analysis Analysis @relation(fields: [analysis_id], references: [id], onDelete: Cascade)
+}
+
+model Memory {
+  id                    String   @id @default(cuid())
+  patient_id            String
+  type                  String
+  title                 String
+  description           String
+  first_seen_session_id String
+  last_seen_session_id  String
+  therapist_verified    Boolean  @default(false)
+  status                String   @default("active")
+  created_at            DateTime @default(now())
+  updated_at            DateTime @updatedAt
+
+  patient Patient @relation(fields: [patient_id], references: [id], onDelete: Cascade)
+}
+
+model MemoryCandidate {
+  id          String  @id @default(cuid())
+  patient_id  String
+  session_id  String
+  type        String
+  title       String
+  description String
+  confidence  Float
+  status      String   @default("pending")
+  created_at  DateTime @default(now())
+
+  patient Patient @relation(fields: [patient_id], references: [id], onDelete: Cascade)
+}
